@@ -345,10 +345,10 @@ func (c *Client) RevertToRunningConfig() error {
 	return err
 }
 
-// ConfigLocks returns any config locks that are currently in place.
+// ShowConfigLocks returns any config locks that are currently in place.
 //
 // If vsys is an empty string, then the vsys will default to "shared".
-func (c *Client) ConfigLocks(vsys string) ([]util.Lock, error) {
+func (c *Client) ShowConfigLocks(vsys string) ([]util.Lock, error) {
 	var err error
 	var cmd string
 	ans := configLocks{}
@@ -357,7 +357,7 @@ func (c *Client) ConfigLocks(vsys string) ([]util.Lock, error) {
 		vsys = "shared"
 	}
 
-	if c.Version.Gte(version.Number{9, 1, 0, ""}) {
+	if !c.Version.Gte(version.Number{Major: 9, Minor: 1}) {
 		var tgt string
 		if vsys == "shared" {
 			tgt = "all"
@@ -416,10 +416,10 @@ func (c *Client) UnlockConfig(vsys string) error {
 	return err
 }
 
-// CommitLocks returns any commit locks that are currently in place.
+// ShowCommitLocks returns any commit locks that are currently in place.
 //
 // If vsys is an empty string, then the vsys will default to "shared".
-func (c *Client) CommitLocks(vsys string) ([]util.Lock, error) {
+func (c *Client) ShowCommitLocks(vsys string) ([]util.Lock, error) {
 	if vsys == "" {
 		vsys = "shared"
 	}
